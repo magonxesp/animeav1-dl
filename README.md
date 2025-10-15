@@ -59,12 +59,6 @@ https://animeav1.com/media/yofukashi-no-uta/3
 ...
 ```
 
-### Obtener enlace de descarga de un episodio específico
-
-```bash
-./animeav1-dl -url "https://animeav1.com/media/yofukashi-no-uta/1"
-```
-
 ## Notas técnicas
 
 - El programa utiliza Chrome/Chromium en modo headless (sin interfaz gráfica) para procesar páginas que requieren JavaScript.
