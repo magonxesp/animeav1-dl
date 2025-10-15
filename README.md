@@ -98,7 +98,3 @@ Los tests incluyen la verificación de:
 - Extracción de lista de episodios
 - Extracción de enlaces de descarga
 - Manejo de errores
-
-## Licencia
-
-MIT
