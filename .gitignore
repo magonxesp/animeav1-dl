@@ -1,0 +1,29 @@
+# Binario compilado
+animeav1-dl
+
+# Binarios para diferentes plataformas
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Archivos temporales de Go
+*.test
+*.out
+*.prof
+
+# Directorios generados por Go
+/vendor/
+/dist/
+
+# IDE y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
