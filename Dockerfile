@@ -1,26 +1,21 @@
-FROM golang:1.21-alpine
-
-# Instalar Chrome y dependencias necesarias
-RUN apk add --no-cache \
-    chromium \
-    chromium-chromedriver \
-    ca-certificates
-
-# Establecer la variable de entorno para chromedp
-ENV CHROME_BIN=/usr/bin/chromium-browser
-ENV CHROME_PATH=/usr/lib/chromium/
+FROM golang:1.21-alpine AS builder
 
 WORKDIR /app
 
-# Copiar los archivos del módulo Go
-COPY go.mod go.sum ./
-RUN go mod download
+RUN apk add --no-cache git
 
-# Copiar el código fuente
 COPY . .
 
-# Compilar la aplicación
+RUN go mod download
 RUN go build -o animeav1-dl
 
-# Ejecutar la aplicación
-ENTRYPOINT ["./animeav1-dl"]
+FROM alpine:latest
+
+RUN apk add --no-cache chromium
+
+COPY --from=builder /app/animeav1-dl /usr/local/bin/animeav1-dl
+
+ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV CHROME_PATH=/usr/lib/chromium/
+
+ENTRYPOINT ["/usr/local/bin/animeav1-dl"]
