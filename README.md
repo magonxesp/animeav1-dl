@@ -2,6 +2,8 @@
 
 Herramienta en línea de comandos para extraer enlaces de descarga de animeav1.com.
 
+![](./docs/img/preview.png)
+
 ## Requisitos
 
 - Go 1.21 o superior
@@ -44,7 +46,9 @@ go build
 
 ## Uso
 
-### Listar link de descarga de todos los episodios de una serie
+### CLI
+
+#### Listar link de descarga de todos los episodios de una serie
 
 ```bash
 ./animeav1-dl --url "https://animeav1.com/media/yofukashi-no-uta"
