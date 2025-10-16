@@ -1,4 +1,4 @@
-// AnimeAV1 Downloader - Un programa para extraer enlaces de descarga de animeav1.com
+// AnimeAV1-DL - Un programa para extraer enlaces de descarga de animeav1.com
 // Copyright (C) 2025  MagonxESP
 //
 // This program is free software: you can redistribute it and/or modify
