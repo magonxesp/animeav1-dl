@@ -95,14 +95,11 @@ function App() {
           </p>
         </header>
 
-        <form
-          className="flex w-full flex-col gap-3 rounded-2xl border border-border/60 bg-card/40 p-6 shadow-lg backdrop-blur sm:flex-row sm:items-center"
-          onSubmit={handleSubmit}
-        >
-          <div className="flex w-full flex-1 flex-col gap-2">
-            <Label htmlFor="url" className="sr-only">
-              URL de la serie
-            </Label>
+        <form className="w-full" onSubmit={handleSubmit}>
+          <Label htmlFor="url" className="sr-only">
+            URL de la serie
+          </Label>
+          <div className="flex w-full flex-col gap-2 sm:max-w-3xl sm:flex-row sm:items-center sm:gap-3">
             <Input
               id="url"
               type="url"
@@ -112,11 +109,10 @@ function App() {
               required
               className="flex-1"
             />
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Buscando enlaces..." : "Obtener enlaces"}
+            </Button>
           </div>
-
-          <Button type="submit" disabled={isLoading} className="sm:w-auto">
-            {isLoading ? "Buscando enlaces..." : "Obtener enlaces"}
-          </Button>
         </form>
 
         {error && (
