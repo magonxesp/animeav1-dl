@@ -70,7 +70,7 @@ func ExtractEpisodeDownloadLink(url string) (string, error) {
 	return downloadLink, nil
 }
 
-func ExtractEpisodeDownloadLinks(url string) ([]string, error) {
+func ExtractEpisodesDownloadLinks(url string) ([]string, error) {
 	episodeLinks, err := ExtractEpisodesLinks(url)
 	if err != nil {
 		return nil, fmt.Errorf("error al obtener lista de episodios: %w", err)

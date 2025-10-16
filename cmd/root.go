@@ -17,23 +17,17 @@ package cmd
 
 import (
 	"fmt"
-	"log/slog"
-	"os"
 
 	"github.com/magonxesp/animeav1-dl/internal/common"
 	"github.com/spf13/cobra"
 )
 
-var (
-	logger = slog.New(slog.NewTextHandler(os.Stderr, nil))
-
-	rootCmd = &cobra.Command{
+var rootCmd = &cobra.Command{
 		Use:   "animeav1-dl",
 		Short: "Extrae enlaces de descarga de animeav1.com",
 		Long:  "AnimeAV1 Downloader permite extraer enlaces de descarga de animeav1.com desde la línea de comandos o mediante un endpoint HTTP.",
 		RunE:  runRoot,
 	}
-)
 
 var mediaURL string
 
@@ -52,7 +46,7 @@ func runRoot(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	downloadLinks, err := common.ExtractEpisodeDownloadLinks(mediaURL)
+	downloadLinks, err := common.ExtractEpisodesDownloadLinks(mediaURL)
 	if err != nil {
 		return fmt.Errorf("error al extraer los enlaces de descarga: %w", err)
 	}
