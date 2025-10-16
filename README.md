@@ -7,6 +7,7 @@ Herramienta en línea de comandos para extraer enlaces de descarga de animeav1.c
 ## Requisitos
 
 - Go 1.21 o superior
+- Nodejs 22 o superior
 - Chrome/Chromium (se ejecuta en modo headless, no requiere interfaz gráfica)
 
 ### Instalación de Chrome/Chromium
@@ -36,11 +37,13 @@ cd animeav1-dl
 
 2. Instala las dependencias:
 ```bash
+npm install
 go mod download
 ```
 
 3. Compila el programa:
 ```bash
+npm run build
 go build
 ```
 
@@ -54,6 +57,16 @@ go build
 ./animeav1-dl --url "https://animeav1.com/media/yofukashi-no-uta"
 ```
 
+### Web
+
+Arranca en modo servidor web
+
+```bash
+./animeav1-dl serve
+```
+
+Y accede desde el navegaor a la url [http://localhost:8080](http://localhost:8080)
+
 ## Notas técnicas
 
 - El programa utiliza Chrome/Chromium en modo headless (sin interfaz gráfica) para procesar páginas que requieren JavaScript.
@@ -66,6 +79,8 @@ Para ejecutar en un servidor, asegúrate de tener Chrome/Chromium instalado. El 
 
 ### Usando Docker
 
+#### CLI
+
 1. Construye la imagen:
 ```bash
 docker build -t animeav1-dl .
@@ -75,6 +90,16 @@ docker build -t animeav1-dl .
 ```bash
 docker run animeav1-dl --url "https://animeav1.com/media/yofukashi-no-uta"
 ```
+
+#### Web
+
+Levanta el contenedor con `docker compose`:
+
+```bash
+docker compose up -d
+```
+
+Y ya podras acceder a [http://localhost:8080](http://localhost:8080) desde el navegador.
 
 ## Desarrollo
 
