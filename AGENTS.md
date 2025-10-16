@@ -4,8 +4,22 @@
 - **internal**: Aqui ira la logica interna del programa
 - **pkg**: Aqui iran paquetes que puedan ser potencialmente genericos e independientes del programa y puedan ser publicados
 - **main.go**: Punto de entrada del programa
+- **src**: Donde esta el codigo fuente del frontend
+- **index.html**: Punto de entrada del frontend
+
+# Tecnologias
+
+Para el cli y web server:
+- Go
+
+Para el frontend:
+- React
+- TypeScrpt
+- Vite
 
 # Build
+
+## Cli y Web server
 
 **No usar GOCACHE**
 
@@ -21,4 +35,30 @@ Para ejecutar los test:
 
 ```sh
 go test -v
+```
+
+## Frontend
+
+Modo desarollo:
+
+```sh
+npm run dev
+```
+
+Compilar para produccion:
+
+```sh
+npm run build
+```
+
+Encontrar errores de codigo estaticos:
+
+```sh
+npm run lint
+```
+
+Arreglar errores de codigo estaticos y de estilo de codigo:
+
+```sh
+npm run lint:fix
 ```
