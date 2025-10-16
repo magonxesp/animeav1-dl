@@ -22,6 +22,6 @@ import (
 // NewRouter crea un router de chi con las rutas necesarias.
 func NewRouter() *chi.Mux {
 	router := chi.NewRouter()
-	router.Post("/download-links", GetDownloadLinksHandler)
+	router.Post("/api/download-links", GetDownloadLinksHandler)
 	return router
 }
