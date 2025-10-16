@@ -73,6 +73,11 @@ Y accede desde el navegaor a la url [http://localhost:8080](http://localhost:808
 - No es necesario tener una pantalla o servidor X ejecutándose, ya que el navegador se ejecuta completamente en segundo plano.
 - Los enlaces de descarga se extraen automáticamente después de simular la interacción con los botones necesarios.
 
+## Configuración de logs
+
+- `LOG_DIRECTORY`: ruta de un directorio donde se guardará el fichero `animeav1-dl.log`. El directorio se crea automáticamente si no existe. Si no defines esta variable (o aparece un error creando/abriendo el fichero), los logs se envían a `stdout`.
+- `LOG_JSON`: cuando vale `true`, `1`, `yes` o `y`, el logger usa formato JSON tanto para el fichero como para `stdout`. Cualquier otro valor mantiene el formato de texto plano.
+
 ## Despliegue en servidor
 
 Para ejecutar en un servidor, asegúrate de tener Chrome/Chromium instalado. El programa está diseñado para funcionar sin interfaz gráfica, por lo que es adecuado para servidores sin entorno gráfico.

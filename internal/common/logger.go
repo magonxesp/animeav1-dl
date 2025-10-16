@@ -16,8 +16,71 @@
 package common
 
 import (
+	"io"
+	"log"
 	"log/slog"
 	"os"
+	"path"
+
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var Logger = slog.New(slog.NewTextHandler(os.Stderr, nil))
+const (
+	logDirEnv  = "LOG_DIRECTORY"
+	logJSONEnv = "LOG_JSON"
+)
+
+var Logger = newLogger()
+
+func newLogger() *slog.Logger {
+	logDir := os.Getenv(logDirEnv)
+	if logDir != "" {
+		handler, err := fileHandler(logDir)
+		if err != nil {
+			panic(err)
+		}
+
+		return slog.New(handler)
+	}
+
+	return slog.New(consoleHandler())
+}
+
+func consoleHandler() slog.Handler {
+	return newHandlerFromWritter(os.Stdout)
+}
+
+func fileHandler(logDir string) (slog.Handler, error) {
+	if _, err := os.Stat(logDir); err != nil && os.IsNotExist(err) {
+		if err := os.Mkdir(logDir, 0755); err != nil {
+			log.Panicf("can't create %s directory: %v", logDir, err)
+		}
+	}
+
+	logRotator := &lumberjack.Logger{
+		Filename:   path.Join(logDir, "animeav1-dl.log"),
+		MaxSize:    100,   // Max size in MB
+		MaxBackups: 5,     // Number of backups
+		MaxAge:     7,     // Days
+		Compress:   true,  // Enable compression
+	}
+
+	writter := io.MultiWriter(os.Stdout, logRotator)
+	return newHandlerFromWritter(writter), nil
+}
+
+func newHandlerFromWritter(writer io.Writer) slog.Handler {
+	jsonFormat := parseBoolEnv(logJSONEnv)
+	options := &slog.HandlerOptions{
+		AddSource: true,
+		Level:     slog.LevelInfo,
+	}
+
+	if jsonFormat {
+		return slog.NewJSONHandler(writer, options)
+	}
+
+	return slog.NewTextHandler(writer, options)
+}
+
+
