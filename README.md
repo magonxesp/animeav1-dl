@@ -77,6 +77,13 @@ Y accede desde el navegaor a la url [http://localhost:8080](http://localhost:808
 
 - `LOG_DIRECTORY`: ruta de un directorio donde se guardará el fichero `animeav1-dl.log`. El directorio se crea automáticamente si no existe. Si no defines esta variable (o aparece un error creando/abriendo el fichero), los logs se envían a `stdout`.
 - `LOG_JSON`: cuando vale `true`, `1`, `yes` o `y`, el logger usa formato JSON tanto para el fichero como para `stdout`. Cualquier otro valor mantiene el formato de texto plano.
+- `LOG_LEVEL`: define el nivel mínimo de severidad (`debug`, `info`, `warn`, `error`). Valores inválidos se ignoran y se usa el nivel por defecto (`info`).
+
+Las mismas opciones pueden configurarse mediante flags globales, que tienen prioridad sobre las variables de entorno:
+
+```bash
+./animeav1-dl --log-directory /var/log --log-json --log-level warn serve
+```
 
 ## Despliegue en servidor
 
