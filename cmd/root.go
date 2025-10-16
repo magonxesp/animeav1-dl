@@ -17,19 +17,25 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/magonxesp/animeav1-dl/internal/common"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-		Use:   "animeav1-dl",
-		Short: "Extrae enlaces de descarga de animeav1.com",
-		Long:  "AnimeAV1 Downloader permite extraer enlaces de descarga de animeav1.com desde la línea de comandos o mediante un endpoint HTTP.",
-		RunE:  runRoot,
-	}
+	Use:   "animeav1-dl",
+	Short: "Extrae enlaces de descarga de animeav1.com",
+	Long:  "AnimeAV1 Downloader permite extraer enlaces de descarga de animeav1.com desde la línea de comandos o mediante un endpoint HTTP.",
+	RunE:  runRoot,
+}
 
-var mediaURL string
+var (
+	mediaURL     string
+	logDirectory string
+	logJSON      bool
+	logLevel	 string
+)
 
 // Execute ejecuta el comando raíz.
 func Execute() error {
@@ -37,8 +43,32 @@ func Execute() error {
 }
 
 func init() {
+	
+	cobra.OnInitialize(initLogging)
+	setupLoggingFlags()
 	rootCmd.Flags().StringVar(&mediaURL, "url", "", "URL de animeav1.com para extraer los links")
 	rootCmd.AddCommand(newServeCmd())
+}
+
+func setupLoggingFlags() {
+	defaultLogDir := common.GetLogDirectory()
+	defaultLogJSON := common.GetLogJSON()
+	defaultLogLevel := strings.ToLower(common.GetLogLevel().String())
+
+	logDirectory = defaultLogDir
+	logJSON = defaultLogJSON
+	logLevel = defaultLogLevel
+
+	rootCmd.PersistentFlags().StringVar(&logDirectory, "log-directory", defaultLogDir, "Directorio donde guardar el fichero de logs")
+	rootCmd.PersistentFlags().BoolVar(&logJSON, "log-json", defaultLogJSON, "Emitir los logs en formato JSON")
+	rootCmd.PersistentFlags().StringVar(&logLevel, "log-level", defaultLogLevel, "Nivel de los mensajes de logs, puede ser: info, warn, error o debug")
+}
+
+func initLogging() {
+	common.SetLogDirectory(logDirectory)
+	common.SetLogJSON(logJSON)
+	common.SetLogLevel(logLevel)
+	common.ConfigureLogger()
 }
 
 func runRoot(cmd *cobra.Command, args []string) error {

@@ -16,17 +16,16 @@
 package common
 
 import (
-	"os"
 	"strings"
 )
 
-func parseBoolEnv(key string) bool {
-	value := strings.TrimSpace(os.Getenv(key))
-	if value == "" {
+func parseBool(value string) bool {
+	trimmedValue := strings.TrimSpace(value)
+	if trimmedValue == "" {
 		return false
 	}
 
-	switch strings.ToLower(value) {
+	switch strings.ToLower(trimmedValue) {
 	case "1", "true", "t", "yes", "y":
 		return true
 	default:

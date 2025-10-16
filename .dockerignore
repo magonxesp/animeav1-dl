@@ -3,3 +3,4 @@ node_modules
 animeav1-dl
 *.exe
 dist
+*.log

@@ -21,19 +21,30 @@ import (
 	"log/slog"
 	"os"
 	"path"
+	"strings"
 
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 const (
-	logDirEnv  = "LOG_DIRECTORY"
-	logJSONEnv = "LOG_JSON"
+	logDirEnv  	= "LOG_DIRECTORY"
+	logJSONEnv 	= "LOG_JSON"
+	logLevelEnv = "LOG_LEVEL"
 )
 
-var Logger = newLogger()
+var (
+	Logger       *slog.Logger
+	logDirectory string 		= ""
+	logJSON      bool 			= false
+	logLevel     slog.Level 	= slog.LevelInfo
+)
+
+func ConfigureLogger() {
+	Logger = newLogger()
+}
 
 func newLogger() *slog.Logger {
-	logDir := os.Getenv(logDirEnv)
+	logDir := GetLogDirectory()
 	if logDir != "" {
 		handler, err := fileHandler(logDir)
 		if err != nil {
@@ -70,17 +81,72 @@ func fileHandler(logDir string) (slog.Handler, error) {
 }
 
 func newHandlerFromWritter(writer io.Writer) slog.Handler {
-	jsonFormat := parseBoolEnv(logJSONEnv)
 	options := &slog.HandlerOptions{
 		AddSource: true,
-		Level:     slog.LevelInfo,
+		Level:     GetLogLevel(),
 	}
 
-	if jsonFormat {
+	logJson := GetLogJSON()
+	if logJson {
 		return slog.NewJSONHandler(writer, options)
 	}
 
 	return slog.NewTextHandler(writer, options)
 }
 
+func init() {
+	ConfigureLogger()
+}
 
+// SetLogDirectory sobrescribe el directorio de logs (se prioriza LOG_DIRECTORY).
+func SetLogDirectory(dir string) {
+	logDirectory = dir
+}
+
+// SetLogJSON define si el logging debe emitirse en formato JSON (se prioriza LOG_JSON).
+func SetLogJSON(enabled bool) {
+	logJSON = enabled
+}
+
+func SetLogLevel(level string) {
+	logLevel = parseLogLevel(level)
+}
+
+// GetLogDirectory devuelve el directorio configurado, priorizando la variable de entorno.
+func GetLogDirectory() string {
+	if value := strings.TrimSpace(os.Getenv(logDirEnv)); value != "" {
+		return value
+	}
+
+	return logDirectory
+}
+
+// GetLogJSON indica si el logging debe emitirse en formato JSON, priorizando la variable de entorno.
+func GetLogJSON() bool {
+	if value := os.Getenv(logJSONEnv); value != "" {
+		return parseBool(value)
+	}
+
+	return logJSON
+}
+
+func GetLogLevel() slog.Level {
+	if value := os.Getenv(logLevelEnv); value != "" {
+		return parseLogLevel(value)
+	}
+
+	return logLevel
+}
+
+func parseLogLevel(level string) slog.Level {
+	 switch strings.ToLower(strings.TrimSpace(level)) {
+		case "debug":
+			return slog.LevelDebug
+		case "warn":
+			return slog.LevelWarn
+		case "error":
+			return slog.LevelError
+		default:
+			return slog.LevelInfo
+	}
+}
