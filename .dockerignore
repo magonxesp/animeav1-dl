@@ -1,0 +1,5 @@
+node_modules
+.git
+animeav1-dl
+*.exe
+dist

@@ -16,12 +16,31 @@
 package http
 
 import (
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 )
 
 // NewRouter crea un router de chi con las rutas necesarias.
 func NewRouter() *chi.Mux {
 	router := chi.NewRouter()
+
 	router.Post("/api/download-links", GetDownloadLinksHandler)
+	router.Get("/", serveIndex)
+	router.Get("/*", serveStaticAsset)
+
+	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet && r.Method != http.MethodHead {
+			http.NotFound(w, r)
+			return
+		}
+
+		serveIndex(w, r)
+	})
+
+	router.MethodNotAllowed(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+	})
+
 	return router
 }
