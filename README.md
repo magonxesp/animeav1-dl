@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# AnimeAV1 Downloader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Herramienta en línea de comandos para extraer enlaces de descarga de animeav1.com.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Go 1.21 o superior
+- Chrome/Chromium (se ejecuta en modo headless, no requiere interfaz gráfica)
 
-## React Compiler
+### Instalación de Chrome/Chromium
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### macOS
+```bash
+brew install chromium
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### Ubuntu/Debian
+```bash
+apt-get update && apt-get install -y chromium-browser
 ```
+
+#### Arch Linux
+```bash
+pacman -S chromium
+```
+
+## Instalación
+
+1. Clona el repositorio:
+```bash
+git clone https://github.com/magonxesp/animeav1-dl.git
+cd animeav1-dl
+```
+
+2. Instala las dependencias:
+```bash
+go mod download
+```
+
+3. Compila el programa:
+```bash
+go build
+```
+
+## Uso
+
+### Listar link de descarga de todos los episodios de una serie
+
+```bash
+./animeav1-dl --url "https://animeav1.com/media/yofukashi-no-uta"
+```
+
+## Notas técnicas
+
+- El programa utiliza Chrome/Chromium en modo headless (sin interfaz gráfica) para procesar páginas que requieren JavaScript.
+- No es necesario tener una pantalla o servidor X ejecutándose, ya que el navegador se ejecuta completamente en segundo plano.
+- Los enlaces de descarga se extraen automáticamente después de simular la interacción con los botones necesarios.
+
+## Despliegue en servidor
+
+Para ejecutar en un servidor, asegúrate de tener Chrome/Chromium instalado. El programa está diseñado para funcionar sin interfaz gráfica, por lo que es adecuado para servidores sin entorno gráfico.
+
+### Usando Docker
+
+1. Construye la imagen:
+```bash
+docker build -t animeav1-dl .
+```
+
+2. Ejecuta el contenedor:
+```bash
+docker run animeav1-dl --url "https://animeav1.com/media/yofukashi-no-uta"
+```
+
+## Desarrollo
+
+### Ejecutar tests
+```bash
+go test -v
+```
+
+Los tests incluyen la verificación de:
+- Extracción de lista de episodios
+- Extracción de enlaces de descarga
+- Manejo de errores
