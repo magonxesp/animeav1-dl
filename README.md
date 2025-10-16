@@ -1,4 +1,4 @@
-# AnimeAV1 Downloader
+# AnimeAV1-DL
 
 Herramienta en línea de comandos para extraer enlaces de descarga de animeav1.com.
 
