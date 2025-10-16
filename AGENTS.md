@@ -71,3 +71,28 @@ npx shadcn@latest add <nombre del componente en minuscula>
 # Por ejemplo
 npx shadcn@latest add button
 ```
+
+# Licencia
+
+El programa esta bajo licencia GPLv3 y todos los ficheros de codigo fuente tienen que tener la licencia al principio del fichero:
+
+```text
+AnimeAV1-DL - Un programa para extraer enlaces de descarga de animeav1.com
+Copyright (C) 2025  MagonxESP
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+```
+
+Para ficheros `.go` se pondra en comentarios con `//`.
+En ficheros que cumplan el patron `*.{js,jsx,ts,tsx,css}` se tiene que poner en un doc block.
