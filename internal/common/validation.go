@@ -13,16 +13,28 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-package main
+package common
 
 import (
-	"os"
-
-	"github.com/magonxesp/animeav1-dl/cmd"
+	"errors"
+	"regexp"
 )
 
-func main() {
-	if err := cmd.Execute(); err != nil {
-		os.Exit(1)
+var (
+	ErrEmptyURL        = errors.New("la URL es requerida")
+	ErrInvalidMediaURL = errors.New("la URL proporcionada no es válida. Debe seguir el formato: https://animeav1.com/media/<nombre>")
+
+	mediaURLRegex = regexp.MustCompile(`^https://animeav1\.com/media/[^/]+`)
+)
+
+func ValidateMediaURL(url string) error {
+	if url == "" {
+		return ErrEmptyURL
 	}
+
+	if !mediaURLRegex.MatchString(url) {
+		return ErrInvalidMediaURL
+	}
+
+	return nil
 }

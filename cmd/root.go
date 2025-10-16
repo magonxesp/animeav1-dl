@@ -13,16 +13,30 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-package main
+package cmd
 
 import (
+	"log/slog"
 	"os"
 
-	"github.com/magonxesp/animeav1-dl/cmd"
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	if err := cmd.Execute(); err != nil {
-		os.Exit(1)
+var (
+	rootCmd = &cobra.Command{
+		Use:   "animeav1-dl",
+		Short: "Extrae enlaces de descarga de animeav1.com",
+		Long:  "AnimeAV1 Downloader permite extraer enlaces de descarga de animeav1.com desde la línea de comandos o mediante un endpoint HTTP.",
 	}
+
+	logger = slog.New(slog.NewTextHandler(os.Stderr, nil))
+)
+
+// Execute ejecuta el comando raíz.
+func Execute() error {
+	return rootCmd.Execute()
+}
+
+func init() {
+	rootCmd.AddCommand(newCLICmd(), newServeCmd())
 }
