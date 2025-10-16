@@ -63,3 +63,11 @@ Arreglar errores de codigo estaticos y de estilo de codigo:
 ```sh
 npm run lint:fix
 ```
+
+Para añadir un componente de Shadcn:
+
+```sh
+npx shadcn@latest add <nombre del componente en minuscula>
+# Por ejemplo
+npx shadcn@latest add button
+```
