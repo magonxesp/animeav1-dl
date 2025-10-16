@@ -36,27 +36,10 @@ function App() {
         body: JSON.stringify({ url }),
       })
 
-      if (!response.ok) {
-        let message = "No se pudo obtener la lista de enlaces."
-        try {
-          const data = await response.json()
-          if (typeof data?.error === "string") {
-            message = data.error
-          }
-        } catch (parseError) {
-          // el endpoint puede no devolver body en caso de error
-        }
-        throw new Error(message)
-      }
-
       const data = (await response.json()) as DownloadResponse
       setLinks(data.links ?? [])
-    } catch (fetchError) {
-      const message =
-        fetchError instanceof Error
-          ? fetchError.message
-          : "Se produjo un error desconocido."
-      setError(message)
+    } catch {
+      setError("No se pudo obtener la lista de enlaces. Inténtalo de nuevo más tarde.")
     } finally {
       setIsLoading(false)
     }
