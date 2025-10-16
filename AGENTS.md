@@ -16,6 +16,7 @@ Para el frontend:
 - React
 - TypeScrpt
 - Vite
+- Shadcn UI
 
 # Build
 
