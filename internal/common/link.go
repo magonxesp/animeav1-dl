@@ -29,13 +29,13 @@ const BaseURL = "https://animeav1.com"
 
 func ExtractEpisodesLinks(url string) ([]string, error) {
 	var episodeLinks []string
-	episodePattern := regexp.MustCompile(`^/media/.+/\d+$`)
+	episodePattern := regexp.MustCompile(`^/ver/.+/\d+$`)
 
 	collector := NewCollector()
 
 	collector.OnHTML("a[href]", func(element *colly.HTMLElement) {
 		linkPath := element.Attr("href")
-		if strings.HasPrefix(linkPath, "/media") && episodePattern.MatchString(linkPath) {
+		if strings.HasPrefix(linkPath, "/ver") && episodePattern.MatchString(linkPath) {
 			episodeLinks = append(episodeLinks, BaseURL+linkPath)
 		}
 	})

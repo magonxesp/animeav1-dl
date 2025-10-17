@@ -24,7 +24,7 @@ var (
 	ErrEmptyURL        = errors.New("la URL es requerida")
 	ErrInvalidMediaURL = errors.New("la URL proporcionada no es válida. Debe seguir el formato: https://animeav1.com/media/<nombre>")
 
-	mediaURLRegex = regexp.MustCompile(`^https://animeav1\.com/media/[^/]+`)
+	mediaURLRegex = regexp.MustCompile(`^https://animeav1\.com/[^/]+`)
 )
 
 func ValidateMediaURL(url string) error {
