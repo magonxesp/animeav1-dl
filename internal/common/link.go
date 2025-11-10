@@ -60,7 +60,7 @@ func ExtractEpisodeDownloadLink(url string) (string, error) {
 		chromedp.AttributeValue(`//a[.//span[text()="Mega"]]`, "href", &downloadLink, nil, chromedp.NodeVisible),
 	)
 	if err != nil {
-		return "", fmt.Errorf("error al extraer el enlace de descarga: %w", err)
+		return "", err
 	}
 
 	if downloadLink == "" {
