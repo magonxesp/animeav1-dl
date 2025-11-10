@@ -30,7 +30,7 @@ func NewCollector() *colly.Collector {
 }
 
 func NewChromeContext() (context.Context, context.CancelFunc) {
-	ctx, baseCancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, baseCancel := context.WithTimeout(context.Background(), 60*time.Second)
 
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.Flag("headless", true),
